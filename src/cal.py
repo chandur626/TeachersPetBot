@@ -1,12 +1,15 @@
 from datetime import datetime
 import discord
 
+from discord.ext import tasks
 import db
-
 BOT = None
 CALENDAR_EMBED = None
+CLOSE_CALL_EMBED = None
+CLOSE_CALL_EMBED_NONE = None
 MSG = None
-
+MSG_CC = None
+MSG_CC_NONE = None
 ###########################
 # Function: display_events
 # Description: Sends or updates the embed for the calendar
@@ -16,7 +19,6 @@ MSG = None
 async def display_events(ctx):
     ''' sends the embed to the channel and edits it to update it as well '''
     global MSG
-
     # recreate the embed from the database
     update_calendar(ctx)
 
@@ -122,3 +124,96 @@ async def init(b):
 
         channel = await guild.create_text_channel('course-calendar')
         await display_events(channel)
+        #close calls on assignments and exams
+        await closecalls.start(channel)
+
+
+
+
+###########################
+# Function: closecalls
+# Description: checks if any deadlines are coming up within a day
+# this code runs in the background periodically
+# Inputs:
+#      - channel : the channel 'course-calendar'
+###########################
+@tasks.loop(minutes=1440)
+async def closecalls(ctx):
+    global MSG_CC
+    global MSG_CC_NONE
+    global CLOSE_CALL_EMBED
+    global CLOSE_CALL_EMBED_NONE
+    assignments = []
+    for title, link, desc, date in db.select_query(
+            'SELECT title, link, desc, date FROM assignments ' +
+            'WHERE guild_id = ? ' +
+            'ORDER BY date ASC', [ctx.guild.id]):
+        assignments.append([ f'{date}',
+            f'{date}\n{title}\n{desc}\n{link}\n\n'])
+
+    exams = []
+    for title, desc, duration, begin_date, end_date in db.select_query(
+            'SELECT title, desc, duration, begin_date, end_date FROM exams ' +
+            'WHERE guild_id = ? ' +
+            'ORDER BY begin_date ASC', [ctx.guild.id]):
+        exams.append([ f'{begin_date}',
+            f'{begin_date} - {end_date}\n{title}\n{desc}\n{duration}\n\n'])
+
+    # get current time for comparison and make sure it is of same string format
+    current_time = datetime.now()
+    i = j = 0
+    close_events = ''
+    # go through the sorted lists and take the earliest date,
+    # moving the index of each until all lists are placed
+    # into one of the defined areas
+    while (i != len(exams) or j != len(assignments)):
+        if (i == len(exams) or (j != len(assignments) and assignments[j][0] < exams[i][0])):
+            if (datetime.strptime(
+                assignments[j][0], '%Y-%m-%d %H:%M:%S') - current_time
+                ).total_seconds() <= 86400 and (
+                    datetime.strptime(
+                        assignments[j][0], '%Y-%m-%d %H:%M:%S'
+                        ) - current_time).total_seconds() >= 0:
+                close_events += assignments[j][1]
+            j += 1
+        else:
+            if (datetime.strptime(
+                exams[i][0],'%Y-%m-%d %H:%M:%S') - current_time
+                ).total_seconds() <= 86400 and (
+                    datetime.strptime(
+                        exams[i][0], '%Y-%m-%d %H:%M:%S') - current_time).total_seconds() >= 0:
+                close_events += exams[i][1]
+            i += 1
+    # create an Embed with a title and description of color 'currently BLUE'
+    CLOSE_CALL_EMBED = discord.Embed(title="Pay close attention to the close calls",
+        description="Due within a day", color=0x0000FF)
+    CLOSE_CALL_EMBED_NONE = discord.Embed(title="No close calls as of now",
+        description="Nothing due within a day", color=0x0000FF)
+    # add the built strings to the embed
+    if close_events != '':
+        CLOSE_CALL_EMBED.add_field(name="Close Calls", value=close_events, inline=True)
+
+        # mark the time that this was done for both creation and editing
+        # NOTE - we put in EST because we are EST
+        timeNow = datetime.now().strftime('%Y-%m-%d %H:%M:%S') + ' EST'
+        CLOSE_CALL_EMBED.set_footer(text=f"{timeNow}")
+
+
+        # if it was never created, send the first message
+        if not MSG_CC:
+            MSG_CC = await ctx.send(embed=CLOSE_CALL_EMBED)
+        else:
+            # otherwise, edit the saved message from earlier
+            await MSG_CC.edit(embed=CLOSE_CALL_EMBED)
+    else:
+        timeNow = datetime.now().strftime('%Y-%m-%d %H:%M:%S') + ' EST'
+        CLOSE_CALL_EMBED_NONE.set_footer(text=f"{timeNow}")
+        if not MSG_CC_NONE:
+            MSG_CC_NONE = await ctx.send(embed=CLOSE_CALL_EMBED_NONE)
+        else:
+            # otherwise, edit the saved message from earlier
+            await MSG_CC_NONE.edit(embed=CLOSE_CALL_EMBED_NONE)
+
+@closecalls.before_loop
+async def before():
+    await BOT.wait_until_ready()
