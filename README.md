@@ -47,6 +47,7 @@ Teacher's Pet is a Discord Bot for class instructors to streamline their Discord
 -`attendance`
 -`get instructor`
 -`Remove instructor `
+-`custom `
 
 - add the respective scrnshots in the right place like how its done for old cmds below!!!
 
