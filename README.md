@@ -174,7 +174,17 @@ Using the Python package better-profanity, Teacher's Pet will catch profane word
 
 #### Features added in Phase II
 ```diff
-- add here
+### Custom Profanity Censoring 
+Building upon the existing python package better-profanity, Teacher's pet, in addition to catching the existing profane words, will now give an option to declare custom words as profane. This adds them to the list of words to be filtered and any further use of said word would cause it to be censored. 
+NOTE: Currently the Bot does not censor swears which have had extra alphabetical characters added.
+Working : 
+Use the below syntax to include the custom word to the profane list:
+![alt text](https://github.com/Ashwinshankar98/TeachersPetBot/blob/readme-prof-reminders/images/custom-profanity1.png)
+
+Whenever the above word is used the below flow is triggered : 
+![alt text](https://github.com/Ashwinshankar98/TeachersPetBot/blob/readme-prof-reminders/images/custom-profanity2.png)
+
+![alt text](https://github.com/Ashwinshankar98/TeachersPetBot/blob/readme-prof-reminders/images/custom-profanity3.png)
 ```
 
 <h2 align="center"> Future Scope </h2>
