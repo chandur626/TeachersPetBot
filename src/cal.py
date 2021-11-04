@@ -217,3 +217,4 @@ async def closecalls(ctx):
 @closecalls.before_loop
 async def before():
     await BOT.wait_until_ready()
+    
