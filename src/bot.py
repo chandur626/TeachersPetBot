@@ -197,6 +197,25 @@ async def on_member_remove(member):
 @bot.event
 async def on_message(message):
     ''' run on message sent to a channel '''
+    #spam detection
+
+    ctx = await bot.get_context(message)
+    print(message.content)
+    count = 0
+    with open("spam.txt", "a") as f:
+        f.writelines(f"{str(message.author.id)}\n")
+
+
+    with open("spam.txt","r+") as f:
+        for line in f:
+            if line.strip("\n") == str(message.author.id):
+                count = count+1
+
+        print(count)
+        if count>5:
+            await ctx.send("spam;too many messages")
+            f.truncate(0)
+
     # allow messages from test bot
     if message.author.bot and message.author.id == Test_bot_application_ID:
         ctx = await bot.get_context(message)
