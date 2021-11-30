@@ -1,7 +1,6 @@
 import platform
 import asyncio
 import os
-import re
 from time import time
 from platform import python_version
 from datetime import datetime, timedelta
@@ -199,7 +198,6 @@ async def on_member_remove(member):
 async def on_message(message):
     ''' run on message sent to a channel '''
     # allow messages from test bot
-
     if message.author.bot and message.author.id == Test_bot_application_ID:
         ctx = await bot.get_context(message)
         await bot.invoke(ctx)
@@ -219,21 +217,20 @@ async def on_message(message):
         await message.channel.send(response)
 
 
-    url_data=[]
-    message_links = []
-    temp=[]
-    regex = r"(?i)\b((?:https?://|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+" \
-                r"\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'\".,<>?«»“”‘’]))"
+    regex = r"(?i)\b((?:https?://|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)(?:[^\s()<>]+|\(([^\s" \
+            r"()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};" \
+            r":'.,<>?«»“”‘’]))"
     url_data = re.findall(regex, message.content)
     for url_count in url_data:
         temp.append(url_count[0])
     if temp:
         message_links.append(message.content)
-        with open('images/links/links.txt', "a") as text_file:
+        with open('images/links/links.txt', mode='a', encoding='utf-8') as text_file:
             text_file.write("Message containing url :-  " + message.content + "\n")
             text_file.close()
     else:
         pass
+
 
 ###########################
 # Function: on_message_edit
@@ -399,6 +396,7 @@ async def send_links(ctx):
     await ctx.send("The below list of messages contains URLs")
     await ctx.send(file=discord.File('images/links/links.txt'))
 
+    
 ###########################
 # Function: answer
 # Description: command to answer question and sends to qna module
