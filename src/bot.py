@@ -1,6 +1,7 @@
 import platform
 import asyncio
 import os
+import re
 from time import time
 from platform import python_version
 from datetime import datetime, timedelta
@@ -23,12 +24,10 @@ import db
 import profanity
 import event_creation
 import office_hours
-import email_address
 import cal
 import qna
 import attendance
 import help_command
-import utils
 
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '1'
 
@@ -103,13 +102,6 @@ async def on_ready():
         )
     ''')
 
-    db.mutation_query('''
-        CREATE TABLE IF NOT EXISTS email_address (
-            author_id    INT,
-            email_id       VARCHAR(50),
-            is_active   BOOLEAN NOT NULL CHECK (is_active IN (0, 1))
-        )
-    ''')
 
     event_creation.init(bot)
     office_hours.init(bot)
@@ -207,6 +199,7 @@ async def on_member_remove(member):
 async def on_message(message):
     ''' run on message sent to a channel '''
     # allow messages from test bot
+
     if message.author.bot and message.author.id == Test_bot_application_ID:
         ctx = await bot.get_context(message)
         await bot.invoke(ctx)
@@ -224,6 +217,23 @@ async def on_message(message):
     if message.content == 'hey bot':
         response = 'hey yourself ;)'
         await message.channel.send(response)
+
+
+    url_data=[]
+    message_links = []
+    temp=[]
+    regex = r"(?i)\b((?:https?://|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+" \
+                r"\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'\".,<>?«»“”‘’]))"
+    url_data = re.findall(regex, message.content)
+    for url_count in url_data:
+        temp.append(url_count[0])
+    if temp:
+        message_links.append(message.content)
+        with open('images/links/links.txt', "a") as text_file:
+            text_file.write("Message containing url :-  " + message.content + "\n")
+            text_file.close()
+    else:
+        pass
 
 ###########################
 # Function: on_message_edit
@@ -372,6 +382,22 @@ async def ask_question(ctx, question):
     else:
         await ctx.author.send('Please send questions to the #q-and-a channel.')
         await ctx.message.delete()
+
+
+###########################
+# Function: send_links
+# Description: command to fetch all the links posted in the group
+# Inputs:
+#      - ctx: context of the command
+# Outputs:
+#      - Bot posts all the links posted in group.
+###########################
+
+@bot.command(name='send_links', help='Command will output all the messages which contain url')
+async def send_links(ctx):
+    """To display all messages which contain url."""
+    await ctx.send("The below list of messages contains URLs")
+    await ctx.send(file=discord.File('images/links/links.txt'))
 
 ###########################
 # Function: answer
@@ -528,26 +554,6 @@ async def custom_profanity(ctx, pword):
 @commands.has_role('Instructor')
 async def attend(ctx):
     await attendance.compute(bot, ctx)
-
-
-@bot.command(name='create_email', help='Configures the specified email address against user.')
-async def create_email(ctx, email_id):
-    await email_address.create_email(ctx, email_id)
-
-
-@bot.command(name='update_email', help='Updates the configured email address against user.')
-async def update_email(ctx, email_id):
-    await email_address.update_email(ctx, email_id)
-
-
-@bot.command(name='view_email', help='displays the configured email address against user.')
-async def view_email(ctx):
-    await email_address.view_email(ctx)
-
-
-@bot.command(name='remove_email', help='deletes the configured email address against user.')
-async def delete_email(ctx):
-    await email_address.delete_email(ctx)
 
 ###########################
 # Function: help
