@@ -1,6 +1,7 @@
 import platform
 import asyncio
 import os
+import re
 from time import time
 from platform import python_version
 from datetime import datetime, timedelta
@@ -221,6 +222,10 @@ async def on_member_remove(member):
 async def on_message(message):
     ''' run on message sent to a channel '''
     # allow messages from test bot
+    url_data=[]
+    message_links = []
+    temp=[]
+
     if message.author.bot and message.author.id == Test_bot_application_ID:
         ctx = await bot.get_context(message)
         await bot.invoke(ctx)
