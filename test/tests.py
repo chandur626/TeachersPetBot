@@ -50,7 +50,7 @@ async def run_tests():
         print('testing email utility\n-----------')
         await test_email_utility.test()
         print('testing links\n----------')
-        await test_links.test(testing_bot, TEST_GUILD_ID)
+#        await test_links.test(testing_bot, TEST_GUILD_ID)
         
     except AssertionError as ex:
         print('exception: ', type(ex).__name__ + ':', ex)
