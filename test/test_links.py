@@ -1,5 +1,5 @@
 """
-This file defines tests for email address configuration functions.
+This file defines tests for links saving functions.
 """
 
 import discord
@@ -11,7 +11,7 @@ async def test_links(testing_bot, commands_channel):
         await wait_for_msg(testing_bot, commands_channel, content)
 
     await commands_channel.send('!send_links')
-    await wait('Email has been configured successfully!')
+    await wait('The below list of messages contains URLs')
 
 
 async def test(testing_bot, guild_id):
