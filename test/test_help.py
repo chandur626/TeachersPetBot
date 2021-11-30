@@ -118,6 +118,39 @@ async def test(testing_bot, guild_id):
             assert 'stats' in m.content
             await m.delete()
 
+    async def regrade_request():
+        await commands_channel.send('!help regrade-request')
+        sleep(5)
+        msg = await commands_channel.history(limit=1).flatten()
+        for m in msg:
+            assert 'regrade-request' in m.content
+            await m.delete()
+
+    async def update_request():
+        await commands_channel.send('!help update-request')
+        sleep(5)
+        msg = await commands_channel.history(limit=1).flatten()
+        for m in msg:
+            assert 'update-request' in m.content
+            await m.delete()
+
+    async def display_requests():
+        await commands_channel.send('!help display-requests')
+        sleep(5)
+        msg = await commands_channel.history(limit=1).flatten()
+        for m in msg:
+            assert 'display-requests' in m.content
+            await m.delete()
+
+    async def remove_request():
+        await commands_channel.send('!help remove-request')
+        sleep(5)
+        msg = await commands_channel.history(limit=1).flatten()
+        for m in msg:
+            assert 'remove-request' in m.content
+            await m.delete()
+
+
     async def test_end():
         await commands_channel.send('!help test')
         sleep(5)
@@ -138,3 +171,7 @@ async def test(testing_bot, guild_id):
     await setIns()
     await stats()
     await test_end()
+    await regrade_request()
+    await update_request()
+    await display_requests()
+    await remove_request()
