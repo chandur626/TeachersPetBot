@@ -4,18 +4,20 @@ https://drive.google.com/file/d/1AN1_ogV7DrMxMMEdWf1HOMlxwH-fbyPm/view?usp=shari
   
   <h1 align="center"> Teacher's Pet </h1>
   
-<h2 align="center"> Streamline Your Class Discord</h1>
+<h2 align="center"> Streamline Your Class Discord</h2>
 
 
 [![DOI](https://zenodo.org/badge/429658277.svg)](https://zenodo.org/badge/latestdoi/429658277)
 ![Python](https://img.shields.io/badge/python-v3.7+-brightgreen.svg)
-![GitHub](https://img.shields.io/github/license/chandur626/TeachersPetBot)
-![GitHub issues](https://img.shields.io/github/issues/chandur626/TeachersPetBot)
-![GitHub closed issues](https://img.shields.io/github/issues-closed/chandur626/TeachersPetBot)
-![Lines of code](https://tokei.rs/b1/github/chandur626/TeachersPetBot)
-[![codecov](https://codecov.io/gh/chandur626/TeachersPetBot/branch/main/graph/badge.svg?token=QTKU51PZSO)](https://codecov.io/gh/chandur626/TeachersPetBot)
-[![GitHub Workflow Status](https://github.com/chandur626/TeachersPetBot/actions/workflows/test.yml/badge.svg)](https://github.com/chandur626/TeachersPetBot/actions/workflows/test.yml)
-![GitHub deployments](https://img.shields.io/github/deployments/Ashwinshankar98/TeachersPetBot/discord-bot-phase2)<br/>
+![GitHub](https://img.shields.io/github/license/tanmaypardeshi/CSC-510-Project2-TeachersPetBot)
+![GitHub issues](https://img.shields.io/github/issues/tanmaypardeshi/CSC-510-Project2-TeachersPetBot)
+![GitHub closed issues](https://img.shields.io/github/issues-closed/tanmaypardeshi/CSC-510-Project2-TeachersPetBot)
+![Lines of code](https://tokei.rs/b1/github/tanmaypardeshi/CSC-510-Project2-TeachersPetBot)
+[![codecov](https://codecov.io/gh/tanmaypardeshi/CSC-510-Project2-TeachersPetBot/branch/main/graph/badge.svg?token=QTKU51PZSO)](https://codecov.io/gh/tanmaypardeshi/CSC-510-Project2-TeachersPetBot)
+[![GitHub Workflow Status](https://github.com/tanmaypardeshi/CSC-510-Project2-TeachersPetBot/actions/workflows/test.yml/badge.svg)](https://github.com/tanmaypardeshi/CSC-510-Project2-TeachersPetBot/actions/workflows/test.yml)
+
+<!-- I am not sure about this parameter yet. Any idea what to do about this? -->
+<!-- ![GitHub deployments](https://img.shields.io/github/deployments/Ashwinshankar98/TeachersPetBot/discord-bot-phase2)<br/> -->
 
 ## Contents
 1. [ Description ](#desc)
@@ -49,25 +51,30 @@ For 3.0, we created new tools for instructors and students to use to improve cou
 <a name="features"></a>
 <h2>Bot Features</h2>
 
+<!-- Need to update this -->
 [Click here to see the features of iterations I and II.](https://github.com/chandur626/TeachersPetBot/blob/update-readme/docs/feature-history.md)
 
+<!-- Need to update this -->
 <h4>Charts</h4>
 Instructors (like TAs, and Professors) can quickly make graphcs and charts directly in discord to share with students/users. Instructors can use this feature to share grade distributions, lecture participation/attendance, or other course statistics. All charts are named and stored into a json file when they are created. Students have acess to a command that allows them to view previously presented charts.
 
 <p align="left"><img width=65% src="https://github.com/chandur626/TeachersPetBot/blob/update-readme/docs/media/charts.gif"></p>
 
+<!-- Need to update this -->
 <h4>Email Configuration</h4>
 
 This feature enables users to configure their email address in the system to receive important notifications, attachments from professors, assignment reminders. Users can also update, view and unconfigure a configured email address through the system.
 
 <p align="left"><img width=65% src="https://github.com/chandur626/TeachersPetBot/blob/update-readme/docs/media/email-address.gif"></p>
 
+<!-- Need to update this -->
 <h4>Email Interaction</h4>
 
 This feature notifies all students regarding the next assignment deadline which is due for a day through email.
 
 <p align="left"><img width=65% src="https://github.com/chandur626/TeachersPetBot/blob/update-readme/docs/media/email-reminder.gif"></p>
 
+<!-- Need to update this -->
 <h4>Re-Grading</h4>
 
 This feature provides a way for students to submit regrade requests and Instructors can collect information of the requests submitted. There are various commands included to add, update, display and remove regrade requests.
@@ -75,20 +82,21 @@ This usecase was based on regrade request submission for CSE 510 SE FALL21 mid e
 
 <p align="left"><img width=65% src="https://github.com/chandur626/TeachersPetBot/blob/update-readme/docs/media/Regrade.gif"></p>
 
-
+<!-- Need to update this -->
 <h4>Link Saving</h4>
 
 This feature is helpful to save all the messages which contain important URLs. we have built a user command "!send_links"  This command lets users access all messages which contain URLs. The messages Containing URLs are automatically get appended in a file and the file is attached when the "!send_links" command is input.
 
 <p align="left"><img width=65% src="https://github.com/chandur626/TeachersPetBot/blob/update-readme/docs/media/link-saving.gif"></p>
 
+<!-- Need to update this -->
 <h4>Project Event</h4>
 
 This feature allows instructors or teaching assistants to create a project event by providing information such as description, link for project submission and deadline. The deadline reminder is taken care of Email Interaction feature.
 
 <p align="left"><img width=65% src="https://github.com/chandur626/TeachersPetBot/blob/update-readme/docs/media/project-event.gif"></p>
 
-
+<!-- Need to update this -->
 <h4>Spam Detection</h4>
 This feature is used to detect spam in message channels. When a user tries to send too many messages in the channel, it gives a warning. This is useful when multiple users are trying to send mutiple messages. The warning lets the student know that they have sent too many messages. 
 
@@ -100,21 +108,22 @@ This feature is used to detect spam in message channels. When a user tries to se
 <h2> Installation and Running </h2>
 
 #### Tools and Libraries Used
-In addition to the packages from [requirements.txt](https://github.com/Ashwinshankar98/TeachersPetBot/blob/main/requirements.txt) which need to be installed, please have the following installed on your machine:
+In addition to the packages from [requirements.txt](https://github.com/tanmaypardeshi/CSC-510-Project2-TeachersPetBot/blob/main/requirements.txt) which need to be installed, please have the following installed on your machine:
+<!-- Are there any changes here? -->
 * [Python 3.9.7](https://www.python.org/downloads/)
 * [Sqlite](https://www.sqlite.org/download.html)
-
+<!-- Are there any changes here? -->
 To install and run Teacher's Pet, follow instructions in the [Installation and Testing Guide](https://github.com/Ashwinshankar98/TeachersPetBot/blob/main/Installation.md).
 
 
 <a name="testing"></a>
-
+<!-- Are there any changes here? -->
 <h2>Testing </h2>
 
 To run tests on the Teacher's Pet, follow instructions in the [Installation and Testing Guide](https://github.com/Ashwinshankar98/TeachersPetBot/blob/main/Installation.md#Run-Tests).
 
 <hr />
-
+<!-- Are there any changes here? -->
 <a name="commands"></a>
 <h2> Bot Commands </h2>
 
@@ -204,31 +213,35 @@ For a detailed description of each of the above future enhancements listed visit
 
 <h2>How to Contribute? </h2>
 
-Check out our [CONTRIBUTING.md](https://github.com/Ashwinshankar98/TeachersPetBot/blob/main/CONTRIBUTING.md) for instructions on contributing to this repo and helping enhance this Discord Bot, as well as our [Code of Conduct](https://github.com/Ashwinshankar98/TeachersPetBot/blob/main/CODE_OF_CONDUCT.md) guidelines.
+Check out our [CONTRIBUTING.md](https://github.com/tanmaypardeshi/CSC-510-Project2-TeachersPetBot/blob/main/CONTRIBUTING.md) for instructions on contributing to this repo and helping enhance this Discord Bot, as well as our [Code of Conduct](https://github.com/tanmaypardeshi/CSC-510-Project2-TeachersPetBot/blob/main/CODE_OF_CONDUCT.md) guidelines.
 
 
 <a name="license"></a>
 
 <h2> License </h2>
 
-The project is licensed under the [MIT License](https://github.com/Ashwinshankar98/TeachersPetBot/blob/main/LICENSE).
+The project is licensed under the [MIT License](https://github.com/tanmaypardeshi/CSC-510-Project2-TeachersPetBot/blob/main/LICENSE).
 
 <hr />
 
 <h3> Team Members </h3>
 
-[Chandrahas Reddy Mandapati](https://github.com/chandur626)
+[Tanmay Pardeshi](https://github.com/tanmaypardeshi)
 
-[Sri Pallavi Damuluri](https://github.com/SriPallaviDamuluri)
+[Chandana Ray](https://github.com/cray94)
 
-[Niraj Lavani](https://github.com/nirajlavani)
+[Abhinav Sinha](https://github.com/abhinav110595)
 
-[Harini Bharata](https://github.com/HariniBharata)
-
-[Sandesh Aladhalli Shivarudre Gowda](https://github.com/05sandesh)
+[Sam Kwiatkowski-Martin](https://github.com/ExtremeMachine12)
 
 <h3> Previous Authors </h3>
 
+
+#### Sandesh Aladhalli Shivarudre Gowda
+#### Chandatahas Reddy Mandapati
+#### Sri Pallavi Damuluri
+#### Niraj Lavani
+#### Harini Bharata
 #### Ashwin Shankar Umasankar
 #### Itha Aswin
 #### Kailash Singaravelu

@@ -15,7 +15,7 @@ from discord import Embed
 from discord.ext import commands
 from discord.utils import get
 from discord import __version__ as discord_version
-from discord_components import DiscordComponents
+#from discord_components import DiscordComponents
 
 from dotenv import load_dotenv
 
@@ -32,6 +32,8 @@ import attendance
 import help_command
 import regrade
 import utils
+import spam
+from bardapi import Bard
 
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '1'
 
@@ -47,6 +49,14 @@ print(TOKEN)
 BOT_VERSION=os.getenv('VERSION')
 print(BOT_VERSION)
 Test_bot_application_ID = int(os.getenv('TEST_BOT_APP_ID'))
+bard_api_key = os.getenv('BARD_API_KEY')
+#print(f'bard_api_key =  {bard_api_key} ')
+#print('check1')
+#print('check2')
+bard = Bard(token = bard_api_key)
+
+
+guild_id = int(os.getenv('TEST_GUILD_ID'))  ## needed for spam detection
 
 TESTING_MODE = None
 
@@ -63,8 +73,7 @@ async def on_ready():
     ''' run on bot start-up '''
     global TESTING_MODE
     TESTING_MODE = False
-
-    DiscordComponents(bot)
+    #DiscordComponents(bot)
     db.connect()
     db.mutation_query('''
         CREATE TABLE IF NOT EXISTS ta_office_hours (
@@ -121,15 +130,25 @@ async def on_ready():
             is_active   BOOLEAN NOT NULL CHECK (is_active IN (0, 1))
         )
     ''')
-
+    db.mutation_query('''
+            CREATE TABLE IF NOT EXISTS spam_settings (
+                warning_num             INT,
+                timeout_num             INT,
+                timeout_min             INT,
+                timeout_hour            INT,
+                timeout_day             INT,
+                time_between_clears     INT
+            )
+        ''')
     event_creation.init(bot)
     office_hours.init(bot)
-    await cal.init(bot)
+    spam.init(bot)  #initialize the spam function of the bot so spam.py has
+    # access to the bot and clearing starts
     print('Logged in as')
     print(bot.user.name)
     print(bot.user.id)
     print('------')
-
+    await cal.init(bot) ##this needed to be moved below bc otherwise the stuff above is never called
 ###########################
 # Function: on_guild_join
 # Description: run when a the bot joins a guild
@@ -222,27 +241,23 @@ async def on_member_remove(member):
 @bot.event
 async def on_message(message):
     ''' run on message sent to a channel '''
-    #spam detection
-
     url_data=[]
     message_links = []
     temp=[]
     ctx = await bot.get_context(message)
-    print(message.content)
-    count = 0
-    with open("spam.txt", "a",encoding='utf-8') as f:
-        f.writelines(f"{str(message.author.id)}\n")
-
-    with open("spam.txt","r+",encoding='utf-8') as f:
-        for line in f:
-            if line.strip("\n") == str(message.author.id):
-                count = count+1
-
-        if count>5:
-            #await ctx.send("spam;too many messages")
-            f.truncate(0)
+    member = message.guild.get_member(message.author.id)
+    instructor = False
+    for role in member.roles:
+        if role.name == 'Instructor':
+            instructor = True
+    if not instructor:
+        # Only spam detect on non instructors
+        await spam.handle_spam(message, ctx, guild_id) # handles spam
 
     # allow messages from test bot
+    #print(message.author.bot)
+    #print(message.author.id)
+    #print(Test_bot_application_ID)
     if message.author.bot and message.author.id == Test_bot_application_ID:
         ctx = await bot.get_context(message)
         await bot.invoke(ctx)
@@ -303,6 +318,32 @@ async def on_message_edit(before, after):
 async def test(ctx):
     ''' simple sanity check '''
     await ctx.send('test successful')
+
+##################################
+#Function : bard enabled
+# Description: Integrating bard api
+##################################
+def bard_response(user_input):
+    response = bard.get_answer(str(user_input))['content']
+    return response
+@bot.command()
+async def Aichat(ctx):
+    await ctx.send("You are now in a AI chat session. Type 'exit' to end the chat.")
+    def check(msg):
+        return msg.author == ctx.author
+    while True:
+        try:
+            user_input = await bot.wait_for("message", check=check, timeout=300)  # Adjust the timeout as needed
+
+            if user_input.content.lower() == 'exit':
+                await ctx.send("Chat session ended.")
+                break
+            chat_reply = bard_response(user_input.content)
+            await ctx.send(chat_reply)
+        except asyncio.TimeoutError:
+            await ctx.send("Chat session timed out. Type `!chat` to start a new session.")
+            break
+
 
 ###########################
 # Function: get_instructor
@@ -391,6 +432,21 @@ async def create_event(ctx):
     await event_creation.create_event(ctx, TESTING_MODE)
 
 ###########################
+# Function: create_event
+# Description: command to create event and send to event_creation module
+# Ensures command author is Instructor
+# Inputs:
+#      - ctx: context of the command
+# Outputs:
+#      - Options to create event
+###########################
+@bot.command(name='set_spam_settings', help='Allows instructor to set spam settings')
+@commands.has_role('Instructor')
+async def set_spam_settings(ctx):
+    ''' run spam setting prompts '''
+    await spam.set(ctx)
+
+###########################
 # Function: oh
 # Description: command related office hour and send to office_hours module
 # Inputs:
@@ -416,6 +472,7 @@ async def office_hour_command(ctx, command, *args):
 ###########################
 @bot.command(name='ask', help='Ask question. Please put question text in quotes.')
 async def ask_question(ctx, question):
+    print("Bot asked a question?")
     ''' ask question command '''
     # make sure to check that this is actually being asked in the Q&A channel
     if ctx.channel.name == 'q-and-a':
@@ -602,7 +659,7 @@ async def custom_chart(ctx, title: str, chart: str, *args):
         print("Make sure every data-label singularly matches a datapoint (A B C 1 2 3")
         return
     data_count = int(len(args) / 2)
-    with open('data/charts/chartstorage.json', 'r', encoding='utf-8') as file:
+    with open('../data/charts/chartstorage.json', 'r', encoding='utf-8') as file:
         storage = json.load(file)
 
     labels_list = []
@@ -635,7 +692,7 @@ async def custom_chart(ctx, title: str, chart: str, *args):
     shortened_link = shortener.tinyurl.short(link)
 
     await update_chart(storage, title, shortened_link)
-    with open('data/charts/chartstorage.json', 'w', encoding='utf-8') as file:
+    with open('../data/charts/chartstorage.json', 'w', encoding='utf-8') as file:
         json.dump(storage, file, indent=4)
     await ctx.send("Here is your chart:")
     await ctx.send(f"{shortened_link}")
@@ -651,7 +708,7 @@ async def checkchart(ctx, name: str):
         Returns:
             returns the custom chart in the chat box if it exists
     """
-    with open('data/charts/chartstorage.json', 'r', encoding='utf-8') as file:
+    with open('../data/charts/chartstorage.json', 'r', encoding='utf-8') as file:
         storage = json.load(file)
         if not storage or storage[name] == '':
             await ctx.send("No chart with that name!")
@@ -682,7 +739,7 @@ async def update_chart(storage, name, link):
 async def show_stats(ctx):
     embed = Embed(title="Bot stats",
                     colour=ctx.author.colour,
-                    thumbnail=bot.user.avatar_url,
+                    #thumbnail=bot.user.avatar_url,
                     timestamp=datetime.utcnow())
 
     proc = Process()
@@ -948,9 +1005,7 @@ async def begin_tests(ctx):
         if 'office-hour-test' in ch.name), None)
     if test_oh_chan:
         await office_hours.close_oh(ctx.guild, 'test')
-
     await office_hours.open_oh(ctx.guild, 'test')
-
 ###########################
 # Function: end_tests
 # Description: Finalize automated testing
@@ -962,9 +1017,7 @@ async def end_tests(ctx):
     ''' end tests command '''
     if ctx.author.id != Test_bot_application_ID:
         return
-
     await office_hours.close_oh(ctx.guild, 'test')
-
     # TODO maybe use ctx.bot.logout()
     await ctx.bot.close()
     # quit(0)
