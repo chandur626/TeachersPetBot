@@ -4,7 +4,6 @@
 import discord
 from time import sleep
 
-
 ###########################
 # Function: test
 # Description: runs each test
@@ -29,13 +28,14 @@ async def test(testing_bot, guild_id):
 async def test_question(testing_bot):
     print('testing question')
     qna_channel = discord.utils.get(testing_bot.get_all_channels(), name='q-and-a')
-    await qna_channel.send('!ask \"Hello\"')
+    await qna_channel.send('!ask Hello')
 
-    sleep(0.5)
-
-    messages = await qna_channel.history(limit=1).flatten()
-
+    sleep(.5)
+    #messages = await qna_channel.history(limit=1).flatten() .flatten() no longer works on this
+    messages = [message async for message in qna_channel.history(limit=1)]
+    #print(messages)
     for m in messages:
+        print(m.content)
         assert 'Q1: Hello' in m.content
 
 
@@ -62,7 +62,8 @@ async def test_answer(testing_bot, guild_id):
 
     sleep(1.5)
 
-    messages = await qna_channel.history(limit=1).flatten()
+    #messages = await qna_channel.history(limit=1).flatten()
+    messages = [message async for message in qna_channel.history(limit=1)]
     for m in messages:
         assert 'Student Ans: World' in m.content
 
@@ -90,7 +91,8 @@ async def test_instr_answer(testing_bot, guild_id):
     sleep(1.5)
 
     # check message was updated
-    messages = await qna_channel.history(limit=1).flatten()
+    #messages = await qna_channel.history(limit=1).flatten()
+    messages = [message async for message in qna_channel.history(limit=1)]
     for m in messages:
         assert 'Instructor Ans: Hello World' in m.content
 
