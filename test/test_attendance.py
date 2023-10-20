@@ -18,14 +18,16 @@ async def test(testing_bot, guild_id):
     print('testing attendance')
     await commands_channel.send('!attendance')
     sleep(3)
-    messages = await commands_channel.history(limit=1).flatten()
+    #messages = await commands_channel.history(limit=1).flatten()
+    messages = [message async for message in commands_channel.history(limit=1)]
     assert messages.__class__ == list
 
     commands_channel = discord.utils.get(testing_bot.get_all_channels(),
                                          name='q-and-a')
     await commands_channel.send('!attendance')
     sleep(3)
-    messages = await commands_channel.history(limit=1).flatten()
+    #messages = await commands_channel.history(limit=1).flatten()
+    messages = [message async for message in commands_channel.history(limit=1)]
     for message in messages:
         assert 'Command runs only in the instructor-commands channel' in message.content
     await member.remove_roles(role)

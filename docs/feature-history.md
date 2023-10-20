@@ -183,3 +183,55 @@ Since the bot is hosted on cloud ( In this case Heroku ). Its crucial to know th
 For the purpose of Debugging and maintaining the bot `!stats` command has been added to keep track of CPU usage, Bot up time, Bot version, No. of users and Memory usage.
 
 ![alt text](https://github.com/Ashwinshankar98/TeachersPetBot/blob/main/images/stats_command.png)
+
+<br>
+<h2> Iteration III </h2>
+
+<h4>Charts</h4>
+Instructors (like TAs, and Professors) can quickly make graphcs and charts directly in discord to share with students/users. Instructors can use this feature to share grade distributions, lecture participation/attendance, or other course statistics. All charts are named and stored into a json file when they are created. Students have acess to a command that allows them to view previously presented charts.
+
+<p align="left"><img width=65% src="https://github.com/chandur626/TeachersPetBot/blob/update-readme/docs/media/charts.gif"></p>
+
+<!-- Need to update this -->
+<h4>Email Configuration</h4>
+
+This feature enables users to configure their email address in the system to receive important notifications, attachments from professors, assignment reminders. Users can also update, view and unconfigure a configured email address through the system.
+
+<p align="left"><img width=65% src="https://github.com/chandur626/TeachersPetBot/blob/update-readme/docs/media/email-address.gif"></p>
+
+<!-- Need to update this -->
+<h4>Email Interaction</h4>
+
+This feature notifies all students regarding the next assignment deadline which is due for a day through email.
+
+<p align="left"><img width=65% src="https://github.com/chandur626/TeachersPetBot/blob/update-readme/docs/media/email-reminder.gif"></p>
+
+<!-- Need to update this -->
+<h4>Re-Grading</h4>
+
+This feature provides a way for students to submit regrade requests and Instructors can collect information of the requests submitted. There are various commands included to add, update, display and remove regrade requests.
+This usecase was based on regrade request submission for CSE 510 SE FALL21 mid examination.
+
+<p align="left"><img width=65% src="https://github.com/chandur626/TeachersPetBot/blob/update-readme/docs/media/Regrade.gif"></p>
+
+<!-- Need to update this -->
+<h4>Link Saving</h4>
+
+This feature is helpful to save all the messages which contain important URLs. we have built a user command "!send_links"  This command lets users access all messages which contain URLs. The messages Containing URLs are automatically get appended in a file and the file is attached when the "!send_links" command is input.
+
+<p align="left"><img width=65% src="https://github.com/chandur626/TeachersPetBot/blob/update-readme/docs/media/link-saving.gif"></p>
+
+<!-- Need to update this -->
+<h4>Project Event</h4>
+
+This feature allows instructors or teaching assistants to create a project event by providing information such as description, link for project submission and deadline. The deadline reminder is taken care of Email Interaction feature.
+
+<p align="left"><img width=65% src="https://github.com/chandur626/TeachersPetBot/blob/update-readme/docs/media/project-event.gif"></p>
+
+<!-- Need to update this -->
+<h4>Spam Detection</h4>
+This feature is used to detect spam in message channels. When a user tries to send too many messages in the channel, it gives a warning. This is useful when multiple users are trying to send mutiple messages. The warning lets the student know that they have sent too many messages. 
+
+<p align="left"><img width=65% src="https://github.com/chandur626/TeachersPetBot/blob/update-readme/docs/media/Spam-Detection.gif"></p>
+
+<hr />
