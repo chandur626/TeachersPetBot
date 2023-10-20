@@ -115,7 +115,6 @@ def update_calendar(ctx):
 async def init(b):
     ''' initialize the calendar '''
     global BOT
-
     BOT = b
     for guild in BOT.guilds:
         for channel in guild.text_channels:
@@ -126,7 +125,7 @@ async def init(b):
         await display_events(channel)
         #close calls on assignments and exams
         await closecalls.start(channel)
-
+        print('I dont get here')
 
 
 
@@ -211,9 +210,9 @@ async def closecalls(ctx): # pragma: no cover
         if not MSG_CC_NONE:
             MSG_CC_NONE = await ctx.send(embed=CLOSE_CALL_EMBED_NONE)
         else:
+
             # otherwise, edit the saved message from earlier
             await MSG_CC_NONE.edit(embed=CLOSE_CALL_EMBED_NONE)
-
 @closecalls.before_loop
 async def before(): # pragma: no cover
     await BOT.wait_until_ready()
