@@ -74,7 +74,7 @@ async def question(ctx, qs):
 ###########################
 async def answer(ctx, num, ans):
     ''' answer the specific question '''
-    if int(num) not in QNA.keys():
+    if int(num) not in QNA:
         await ctx.author.send('Invalid question number: ' + str(num))
         # delete user msg
         await ctx.message.delete()

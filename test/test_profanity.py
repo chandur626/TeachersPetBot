@@ -32,8 +32,8 @@ async def test_profanity_1(testing_bot):
     qna_channel = discord.utils.get(testing_bot.get_all_channels(), name='q-and-a')
     await qna_channel.send('shit')
     sleep(5.0)
-    messages = await qna_channel.history(limit=1).flatten()
-
+    #messages = await qna_channel.history(limit=1).flatten()
+    messages = [message async for message in qna_channel.history(limit=1)]
     for m in messages:
         assert '****' in m.content
 
@@ -42,8 +42,8 @@ async def test_profanity_2(testing_bot):
     qna_channel = discord.utils.get(testing_bot.get_all_channels(), name='q-and-a')
     await qna_channel.send('fuck')
     sleep(5.0)
-    messages = await qna_channel.history(limit=1).flatten()
-
+    #messages = await qna_channel.history(limit=1).flatten()
+    messages = [message async for message in qna_channel.history(limit=1)]
     for m in messages:
         assert '****' in m.content
 
@@ -52,7 +52,8 @@ async def test_profanity_3(testing_bot):
     qna_channel = discord.utils.get(testing_bot.get_all_channels(), name='q-and-a')
     await qna_channel.send('shit')
     sleep(5.0)
-    messages = await qna_channel.history(limit=1).flatten()
+    #messages = await qna_channel.history(limit=1).flatten()
+    messages = [message async for message in qna_channel.history(limit=1)]
 
     for m in messages:
         assert '****' in m.content
@@ -71,7 +72,8 @@ async def test_custom_profanity_1(testing_bot):
     sleep(2.0)
     await qna_channel.send('word')
     sleep(5.0)
-    messages = await qna_channel.history(limit=1).flatten()
+    #messages = await qna_channel.history(limit=1).flatten()
+    messages = [message async for message in qna_channel.history(limit=1)]
 
     for m in messages:
         assert '****' in m.content
@@ -83,7 +85,8 @@ async def test_custom_profanity_2(testing_bot):
     sleep(2.0)
     await qna_channel.send('fine')
     sleep(5.0)
-    messages = await qna_channel.history(limit=1).flatten()
+    #messages = await qna_channel.history(limit=1).flatten()
+    messages = [message async for message in qna_channel.history(limit=1)]
 
     for m in messages:
         assert '****' in m.content
@@ -95,7 +98,8 @@ async def test_custom_profanity_3(testing_bot):
     sleep(2.0)
     await qna_channel.send('man')
     sleep(5.0)
-    messages = await qna_channel.history(limit=1).flatten()
+    #messages = await qna_channel.history(limit=1).flatten()
+    messages = [message async for message in qna_channel.history(limit=1)]
 
     for m in messages:
         assert '****' in m.content

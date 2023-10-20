@@ -36,7 +36,8 @@ async def  test_regrade_request(testing_bot):
     regrade_channel = discord.utils.get(testing_bot.get_all_channels(), name='regrade-requests')
     await regrade_channel.send('!regrade-request "Student 1" q1,q2,q3')
     sleep(5.0)
-    messages = await regrade_channel.history(limit=1).flatten()
+    #messages = await regrade_channel.history(limit=1).flatten()
+    messages = [message async for message in regrade_channel.history(limit=1)]
 
     for m in messages:
         new_request = "STUDENT 1's regrade request successfully submitted" in m.content
@@ -57,8 +58,8 @@ async def test_update_request(testing_bot):
     regrade_channel = discord.utils.get(testing_bot.get_all_channels(), name='regrade-requests')
     await regrade_channel.send('!update-request "Student 1" q4,q5,q6')
     sleep(5.0)
-    messages = await regrade_channel.history(limit=1).flatten()
-
+    #messages = await regrade_channel.history(limit=1).flatten()
+    messages = [message async for message in regrade_channel.history(limit=1)]
     for m in messages:
         assert "STUDENT 1's regrade request updated successfully" in m.content
 
@@ -76,8 +77,8 @@ async def test_display_requests(testing_bot):
     regrade_channel = discord.utils.get(testing_bot.get_all_channels(), name='regrade-requests')
     await regrade_channel.send('!display-requests')
     sleep(5.0)
-    messages = await regrade_channel.history(limit=1).flatten()
-
+    #messages = await regrade_channel.history(limit=1).flatten()
+    messages = [message async for message in regrade_channel.history(limit=1)]
     for m in messages:
         assert 'STUDENT 1 q4,q5,q6' in m.content
 
@@ -95,7 +96,7 @@ async def test_remove_request(testing_bot):
     regrade_channel = discord.utils.get(testing_bot.get_all_channels(), name='regrade-requests')
     await regrade_channel.send('!remove-request "Student 1" q4,q5,q6')
     sleep(5.0)
-    messages = await regrade_channel.history(limit=1).flatten()
-
+    #messages = await regrade_channel.history(limit=1).flatten()
+    messages = [message async for message in regrade_channel.history(limit=1)]
     for m in messages:
         assert "STUDENT 1's regrade request removed successfully" in m.content

@@ -25,7 +25,8 @@ async def test(testing_bot, guild_id):
     print('testing main help')
     await commands_channel.send('!help')
     sleep(5)
-    mess = await commands_channel.history(limit=1).flatten()
+    #mess = await commands_channel.history(limit=1).flatten()
+    mess = [message async for message in commands_channel.history(limit=1)]
     for m in mess:
         assert 'help' in m.content
         await m.delete()
@@ -33,7 +34,8 @@ async def test(testing_bot, guild_id):
     async def answer():
         await commands_channel.send('!help answer')
         sleep(5)
-        msg = await commands_channel.history(limit=1).flatten()
+        #msg = await commands_channel.history(limit=1).flatten()
+        msg = [message async for message in commands_channel.history(limit=1)]
         for m in msg:
             assert 'answer' in m.content
             await m.delete()
@@ -41,7 +43,8 @@ async def test(testing_bot, guild_id):
     async def ask():
         await commands_channel.send('!help ask')
         sleep(5)
-        msg = await commands_channel.history(limit=1).flatten()
+        #msg = await commands_channel.history(limit=1).flatten()
+        msg = [message async for message in commands_channel.history(limit=1)]
         for m in msg:
             assert 'ask' in m.content
             await m.delete()
@@ -49,7 +52,8 @@ async def test(testing_bot, guild_id):
     async def attend():
         await commands_channel.send('!help attendance')
         sleep(5)
-        msg = await commands_channel.history(limit=1).flatten()
+        #msg = await commands_channel.history(limit=1).flatten()
+        msg = [message async for message in commands_channel.history(limit=1)]
         for m in msg:
             assert 'attendance' in m.content
             await m.delete()
@@ -57,7 +61,8 @@ async def test(testing_bot, guild_id):
     async def begin():
         await commands_channel.send('!help begin-tests')
         sleep(5)
-        msg = await commands_channel.history(limit=1).flatten()
+        #msg = await commands_channel.history(limit=1).flatten()
+        msg = [message async for message in commands_channel.history(limit=1)]
         for m in msg:
             assert 'begin-tests' in m.content
             await m.delete()
@@ -65,7 +70,8 @@ async def test(testing_bot, guild_id):
     async def create():
         await commands_channel.send('!help create')
         sleep(5)
-        msg = await commands_channel.history(limit=1).flatten()
+        #msg = await commands_channel.history(limit=1).flatten()
+        msg = [message async for message in commands_channel.history(limit=1)]
         for m in msg:
             assert 'create' in m.content
             await m.delete()
@@ -73,7 +79,8 @@ async def test(testing_bot, guild_id):
     async def end():
         await commands_channel.send('!help end-tests')
         sleep(5)
-        msg = await commands_channel.history(limit=1).flatten()
+        #msg = await commands_channel.history(limit=1).flatten()
+        msg = [message async for message in commands_channel.history(limit=1)]
         for m in msg:
             assert 'end-tests' in m.content
             await m.delete()
@@ -81,7 +88,8 @@ async def test(testing_bot, guild_id):
     async def oh():
         await commands_channel.send('!help oh')
         sleep(5)
-        msg = await commands_channel.history(limit=1).flatten()
+        #msg = await commands_channel.history(limit=1).flatten()
+        msg = [message async for message in commands_channel.history(limit=1)]
         for m in msg:
             assert 'oh' in m.content
             await m.delete()
@@ -89,7 +97,8 @@ async def test(testing_bot, guild_id):
     async def ping():
         await commands_channel.send('!help ping')
         sleep(5)
-        msg = await commands_channel.history(limit=1).flatten()
+        #msg = await commands_channel.history(limit=1).flatten()
+        msg = [message async for message in commands_channel.history(limit=1)]
         for m in msg:
             assert 'ping' in m.content
             await m.delete()
@@ -97,7 +106,8 @@ async def test(testing_bot, guild_id):
     async def poll():
         await commands_channel.send('!help poll')
         sleep(5)
-        msg = await commands_channel.history(limit=1).flatten()
+        #msg = await commands_channel.history(limit=1).flatten()
+        msg = [message async for message in commands_channel.history(limit=1)]
         for m in msg:
             assert 'poll' in m.content
             await m.delete()
@@ -105,7 +115,8 @@ async def test(testing_bot, guild_id):
     async def setIns():
         await commands_channel.send('!help setInstructor')
         sleep(5)
-        msg = await commands_channel.history(limit=1).flatten()
+        #msg = await commands_channel.history(limit=1).flatten()
+        msg = [message async for message in commands_channel.history(limit=1)]
         for m in msg:
             assert 'setInstructor' in m.content
             await m.delete()
@@ -113,7 +124,7 @@ async def test(testing_bot, guild_id):
     async def stats():
         await commands_channel.send('!help stats')
         sleep(5)
-        msg = await commands_channel.history(limit=1).flatten()
+        msg = [message async for message in commands_channel.history(limit=1)]
         for m in msg:
             assert 'stats' in m.content
             await m.delete()
@@ -121,7 +132,7 @@ async def test(testing_bot, guild_id):
     async def regrade_request():
         await commands_channel.send('!help regrade-request')
         sleep(5)
-        msg = await commands_channel.history(limit=1).flatten()
+        msg = [message async for message in commands_channel.history(limit=1)]
         for m in msg:
             assert 'regrade-request' in m.content
             await m.delete()
@@ -129,7 +140,7 @@ async def test(testing_bot, guild_id):
     async def update_request():
         await commands_channel.send('!help update-request')
         sleep(5)
-        msg = await commands_channel.history(limit=1).flatten()
+        msg = [message async for message in commands_channel.history(limit=1)]
         for m in msg:
             assert 'update-request' in m.content
             await m.delete()
@@ -137,7 +148,7 @@ async def test(testing_bot, guild_id):
     async def display_requests():
         await commands_channel.send('!help display-requests')
         sleep(5)
-        msg = await commands_channel.history(limit=1).flatten()
+        msg = [message async for message in commands_channel.history(limit=1)]
         for m in msg:
             assert 'display-requests' in m.content
             await m.delete()
@@ -145,7 +156,7 @@ async def test(testing_bot, guild_id):
     async def remove_request():
         await commands_channel.send('!help remove-request')
         sleep(5)
-        msg = await commands_channel.history(limit=1).flatten()
+        msg = [message async for message in commands_channel.history(limit=1)]
         for m in msg:
             assert 'remove-request' in m.content
             await m.delete()
@@ -153,7 +164,7 @@ async def test(testing_bot, guild_id):
     async def create_email():
         await commands_channel.send('!help create_email')
         sleep(5)
-        msg = await commands_channel.history(limit=1).flatten()
+        msg = [message async for message in commands_channel.history(limit=1)]
         for m in msg:
             assert 'create_email' in m.content
             await m.delete()
@@ -161,7 +172,7 @@ async def test(testing_bot, guild_id):
     async def update_email():
         await commands_channel.send('!help update_email')
         sleep(5)
-        msg = await commands_channel.history(limit=1).flatten()
+        msg = [message async for message in commands_channel.history(limit=1)]
         for m in msg:
             assert 'update_email' in m.content
             await m.delete()
@@ -169,7 +180,7 @@ async def test(testing_bot, guild_id):
     async def view_email():
         await commands_channel.send('!help view_email')
         sleep(5)
-        msg = await commands_channel.history(limit=1).flatten()
+        msg = [message async for message in commands_channel.history(limit=1)]
         for m in msg:
             assert 'view_email' in m.content
             await m.delete()
@@ -177,7 +188,7 @@ async def test(testing_bot, guild_id):
     async def remove_email():
         await commands_channel.send('!help remove_email')
         sleep(5)
-        msg = await commands_channel.history(limit=1).flatten()
+        msg = [message async for message in commands_channel.history(limit=1)]
         for m in msg:
             assert 'remove_email' in m.content
             await m.delete()
@@ -185,7 +196,7 @@ async def test(testing_bot, guild_id):
     async def test_end():
         await commands_channel.send('!help test')
         sleep(5)
-        msg = await commands_channel.history(limit=1).flatten()
+        msg = [message async for message in commands_channel.history(limit=1)]
         for m in msg:
             assert 'test' in m.content
             await m.delete()
