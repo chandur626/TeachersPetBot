@@ -45,6 +45,7 @@ class EmailUtility:
         to_address = recipient if isinstance(recipient, list) else [recipient]
 
         msg = MIMEMultipart()
+        print(msg)
         msg['Subject'] = subject if subject else self.subject
         msg['From'] = self.from_address
         msg['To'] = ''.join(to_address)
@@ -81,7 +82,8 @@ async def wait_for_msg(testing_bot, channel, content):
         return await testing_bot.wait_for('message', timeout=2, check=lambda x: x.guild.id == channel.guild.id and x.author.name == DICORD_BOT_NAME and content in x.content)
 
     except asyncio.TimeoutError:
-        messages = await channel.history(limit=1).flatten()
+        #messages = await channel.history(limit=1).flatten()
+        messages = [message async for message in channel.history(limit=1)]
         if not (len(messages) != 0 and content in messages[0].content):
             print(f'Message content {content} not found')
             raise Exception()

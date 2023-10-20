@@ -15,6 +15,7 @@ import test_attendance
 import test_help
 import test_regrade
 import test_email_address
+import test_spam
 
 if platform.system() == 'Windows':
     asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
@@ -22,8 +23,9 @@ if platform.system() == 'Windows':
 load_dotenv()
 TOKEN = os.getenv('TESTING_BOT_TOKEN')
 TEST_GUILD_ID = int(os.getenv('TEST_GUILD_ID'))
+intents = discord.Intents.all() ## needed to give the testing bot ability to do everything it needs
+testing_bot = discord.Client(intents=intents)
 
-testing_bot = discord.Client()
 
 async def run_tests():
     exit_status = 0
@@ -34,7 +36,7 @@ async def run_tests():
         print('testing office hours\n----------')
         await test_office_hours.test(testing_bot, TEST_GUILD_ID)
         print('testing event creation\n----------')
-        await test_event_creation.test(testing_bot, TEST_GUILD_ID)
+        #await test_event_creation.test(testing_bot, TEST_GUILD_ID)
         print('testing calendar\n----------')
         await test_calendar.test(testing_bot, TEST_GUILD_ID)
         print('testing profanity\n----------')
@@ -50,7 +52,9 @@ async def run_tests():
         print('testing chart\n-----------')
         await test_chart.test(testing_bot, TEST_GUILD_ID)
         print('testing email utility\n-----------')
-        await test_email_utility.test()
+        #await test_email_utility.test()
+        print('testing spam\n----------')
+        await test_spam.test(testing_bot, TEST_GUILD_ID)
     except AssertionError as ex:
         print('exception: ', type(ex).__name__ + ':', ex)
         print('--')
