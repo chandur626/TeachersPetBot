@@ -23,6 +23,7 @@ To create a Discord Bot, you must:
     TESTING_BOT_TOKEN={test-bot-token}
     TEST_BOT_NAME={test-bot-name}
     TEST_BOT_APP_ID={test-bot-application-id}
+    BARD_API_KEY={your-bard-api-key}
     VERSION={custom bot version}
     ```
 
@@ -60,10 +61,11 @@ To run tests on the Teacher's Pet Bot:
     TESTING_BOT_TOKEN={test-bot-token}
     TEST_BOT_NAME={test-bot-name}
     TEST_BOT_APP_ID={test-bot-application-id}
+    BARD_API_KEY={your-bard-api-key}
     VERSION={custom bot version}
     ```
  3. In `test/tests.py`, update the `TEST_GUILD_ID` to be the id of the server/guild you are testing in.
- 4. Start Teacher's Pet Bot by running one of the following commands in the root directory of the project:
+ 4. IMPORTANT(You will have two bots running at once for testing. One normal bot, one test bot): Start Teacher's Pet Bot by running one of the following commands in the root directory of the project:
     * Without Coverage: `pytest src/bot.py`
     * With Coverage: `coverage run --source=./src -m pytest src/bot.py`
  5. Run the tests with `python test/tests.py` in the root directory of the project
